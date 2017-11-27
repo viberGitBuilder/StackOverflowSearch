@@ -2,6 +2,7 @@ package com.sergey.stackoverflowtest.dagger.component;
 
 import com.sergey.stackoverflowtest.dagger.Modules.AppModule;
 import com.sergey.stackoverflowtest.dagger.Modules.NetworkModule;
+import com.sergey.stackoverflowtest.search.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -13,4 +14,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
 public interface AppComponent {
+    void inject(MainActivity mainActivity);
 }

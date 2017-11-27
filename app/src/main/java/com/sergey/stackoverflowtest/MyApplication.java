@@ -20,7 +20,7 @@ public class MyApplication extends Application {
         super.onCreate();
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .networkModule(new NetworkModule("http://api.stackexchange.com/"))
+                .networkModule(new NetworkModule("https://api.stackexchange.com/2.2/"))
                 .build();
     }
 
