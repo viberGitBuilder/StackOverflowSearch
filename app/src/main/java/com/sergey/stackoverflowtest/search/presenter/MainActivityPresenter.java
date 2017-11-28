@@ -66,6 +66,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityPresenter.M
                     if (ui != null && facadeRequest.getLatestObservable() != null) {
                         ui.showToast();
                         handleRequest(facadeRequest.getLatestObservable());
+                        return;
                     }
                     if (ui != null) {
                         ui.showAlert();
