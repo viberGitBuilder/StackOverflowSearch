@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sergey.stackoverflowtest.stackapi.QuestionApi;
 
 import javax.inject.Singleton;
 
@@ -71,6 +72,12 @@ public class NetworkModule {
                 .client(okHttpClient)
                 .build();
 
+    }
+
+    @Provides
+    @Singleton
+    QuestionApi providePracticalClassesApi(Retrofit retrofit) {
+        return retrofit.create(QuestionApi.class);
     }
 
 

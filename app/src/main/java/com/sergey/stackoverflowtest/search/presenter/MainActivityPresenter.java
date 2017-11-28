@@ -2,6 +2,7 @@ package com.sergey.stackoverflowtest.search.presenter;
 
 import com.sergey.stackoverflowtest.BasePresenter;
 import com.sergey.stackoverflowtest.UI;
+import com.sergey.stackoverflowtest.stackapi.QuestionApi;
 
 import javax.inject.Inject;
 
@@ -11,8 +12,11 @@ import javax.inject.Inject;
 
 public class MainActivityPresenter extends BasePresenter<MainActivityPresenter.MainActivityUI> {
 
+    private final QuestionApi questionApi;
+
     @Inject
-    public MainActivityPresenter() {
+    public MainActivityPresenter(QuestionApi questionApi) {
+        this.questionApi = questionApi;
     }
 
     @Override
@@ -27,7 +31,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityPresenter.M
 
 
     public void startSearch(CharSequence charSequence){
-     ui.showResultOfSearch(charSequence);
+
     }
 
     public interface MainActivityUI extends UI {

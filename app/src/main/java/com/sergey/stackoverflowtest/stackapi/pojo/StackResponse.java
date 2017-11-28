@@ -14,4 +14,8 @@ public class StackResponse<T> {
     List<T> items;
     @SerializedName("has_more")
     boolean hasMore;
+    @SerializedName("page")
+    private int page;
+    @SerializedName("total")
+    private int total;
 }
