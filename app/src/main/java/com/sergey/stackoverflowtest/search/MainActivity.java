@@ -2,14 +2,19 @@ package com.sergey.stackoverflowtest.search;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.sergey.stackoverflowtest.MyApplication;
 import com.sergey.stackoverflowtest.R;
+import com.sergey.stackoverflowtest.dto.QuestionDto;
+import com.sergey.stackoverflowtest.search.adapter.AnswerAdapter;
 import com.sergey.stackoverflowtest.search.presenter.MainActivityPresenter;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -24,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     MainActivityPresenter presenter;
     private EditText editText;
     private Disposable disposable;
+    private AnswerAdapter answerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText = findViewById(R.id.search_edit_text);
-
+        RecyclerView recyclerView = findViewById(R.id.questions_list);
+        answerAdapter = new AnswerAdapter();
+        recyclerView.setAdapter(answerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
     }
 
 
@@ -48,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     }
 
     @Override
-    public void showResultOfSearch(CharSequence charSequence) {
-        Toast.makeText(this, charSequence, Toast.LENGTH_SHORT).show();
+    public void showResultOfSearch(List<QuestionDto> list) {
+        answerAdapter.setData(list);
     }
 
     @Override

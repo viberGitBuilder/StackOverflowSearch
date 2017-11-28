@@ -3,6 +3,7 @@ package com.sergey.stackoverflowtest.dagger.Modules;
 import android.app.Application;
 
 import dagger.Module;
+import dagger.Provides;
 
 /**
  * Created by sergey on 27.11.17.
@@ -16,5 +17,10 @@ public class AppModule {
         this.mApplication = mApplication;
     }
 
+
+    @Provides
+    Application provideApplication(){
+        return mApplication;
+    }
 
 }
