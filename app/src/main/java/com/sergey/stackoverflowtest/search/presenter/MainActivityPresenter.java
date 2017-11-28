@@ -63,10 +63,14 @@ public class MainActivityPresenter extends BasePresenter<MainActivityPresenter.M
                 .map(QuestionDto::new)
                 .toList()
                 .subscribe(dtos -> ui.showResultOfSearch(dtos), throwable -> {
-                    handleRequest(facadeRequest.getLatestObservable());
-                    if (ui != null) {
+                    if (ui != null && facadeRequest.getLatestObservable() != null) {
                         ui.showToast();
+                        handleRequest(facadeRequest.getLatestObservable());
                     }
+                    if (ui != null) {
+                        ui.showAlert();
+                    }
+
                 });
     }
 

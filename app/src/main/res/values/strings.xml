@@ -3,4 +3,7 @@
     <string name="search">search</string>
     <string name="no_result">No result</string>
     <string name="ok">Ok</string>
+    <string name="dialog_label">Warning</string>
+    <string name="dialog_message">Something went wrong. Please try again later</string>
+    <string name="toast_error">This is the last search result. Ыervice or network is not available</string>
 </resources>

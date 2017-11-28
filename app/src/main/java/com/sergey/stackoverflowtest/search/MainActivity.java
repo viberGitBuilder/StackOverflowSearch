@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     public void showAlert() {
         new AlertDialog.Builder(this)
                 .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
-                .setTitle("Warning")
-                .setMessage("Something wrong, check connection or service unreachable")
+                .setTitle(getString(R.string.dialog_label))
+                .setMessage(R.string.dialog_message)
                 .create().show();
     }
 
     @Override
     public void showToast() {
-        Toast.makeText(this, "This is latest result, sorry something wrong with service or connection", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
     }
 }
