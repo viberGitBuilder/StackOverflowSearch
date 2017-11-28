@@ -3,7 +3,9 @@ package com.sergey.stackoverflowtest.search.presenter;
 import com.sergey.stackoverflowtest.BasePresenter;
 import com.sergey.stackoverflowtest.UI;
 import com.sergey.stackoverflowtest.dto.QuestionDto;
-import com.sergey.stackoverflowtest.stackapi.QuestionApi;
+import com.sergey.stackoverflowtest.facade.FacadeRequest;
+import com.sergey.stackoverflowtest.stackapi.pojo.Question;
+import com.sergey.stackoverflowtest.stackapi.pojo.StackResponse;
 
 import java.util.List;
 
@@ -20,17 +22,21 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivityPresenter extends BasePresenter<MainActivityPresenter.MainActivityUI> {
 
-    private final QuestionApi questionApi;
+    private final FacadeRequest facadeRequest;
     private Disposable dis;
 
     @Inject
-    public MainActivityPresenter(QuestionApi questionApi) {
-        this.questionApi = questionApi;
+    public MainActivityPresenter(FacadeRequest facadeRequest) {
+        this.facadeRequest = facadeRequest;
     }
 
     @Override
     public void attacheUI(MainActivityUI ui) {
         super.attacheUI(ui);
+        Observable<StackResponse<Question>> observable = facadeRequest.getLatestObservable();
+        if (observable != null) {
+            handleRequest(observable);
+        }
     }
 
     @Override
@@ -41,20 +47,35 @@ public class MainActivityPresenter extends BasePresenter<MainActivityPresenter.M
         }
     }
 
-
     public void startSearch(CharSequence charSequence) {
-        dis = questionApi.searchByTitle(charSequence.toString(), "votes", "asc")
+        handleRequest(facadeRequest.searchRequest(charSequence));
+    }
+
+    private void handleRequest(Observable<StackResponse<Question>> observable) {
+        if (observable == null && ui != null) {
+            ui.showAlert();
+            return;
+        }
+        dis = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(items -> Observable.fromIterable(items.getItems()))
                 .map(QuestionDto::new)
                 .toList()
-                .subscribe(dtos -> ui.showResultOfSearch(dtos));
-
+                .subscribe(dtos -> ui.showResultOfSearch(dtos), throwable -> {
+                    handleRequest(facadeRequest.getLatestObservable());
+                    if (ui != null) {
+                        ui.showToast();
+                    }
+                });
     }
 
     public interface MainActivityUI extends UI {
 
         void showResultOfSearch(List<QuestionDto> questionDtos);
+
+        void showAlert();
+
+        void showToast();
     }
 }

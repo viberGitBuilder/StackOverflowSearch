@@ -12,17 +12,29 @@ import com.sergey.stackoverflowtest.R;
  * Created by smilevkiy on 28.11.17.
  */
 
-public class AnswerViewHolder extends RecyclerView.ViewHolder {
-    CardView cv;
-    TextView displayName;
-    TextView personAge;
+public class AnswerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    CardView cardView;
+    TextView title;
+    TextView name;
     ImageView personPhoto;
+    String url;
+    AnswerAdapter.CardClickListener cardClickListener;
 
     AnswerViewHolder(View itemView) {
         super(itemView);
-        cv = itemView.findViewById(R.id.card_view);
-        displayName = itemView.findViewById(R.id.person_name);
-        personAge = itemView.findViewById(R.id.person_age);
+        cardView = itemView.findViewById(R.id.card_view);
+        title = itemView.findViewById(R.id.title);
+        name = itemView.findViewById(R.id.name);
         personPhoto = itemView.findViewById(R.id.person_photo);
+        cardView.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(cardClickListener != null){
+            cardClickListener.onCardClick(url);
+        }
     }
 }
